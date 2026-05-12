@@ -283,6 +283,10 @@ export default function NarrativeForge() {
   const [narratives, setNarratives] = useState<any[]>([]);
   const [isForging, setIsForging] = useState(false);
   const { isConnected } = useAccount();
+  
+  // Dynamic API configuration
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000";
 
   const { scrollYProgress } = useScroll();
   const heroScale = useTransform(scrollYProgress, [0, 0.3], [1, 0.8]);
@@ -291,7 +295,7 @@ export default function NarrativeForge() {
   const smoothHeroY = useSpring(heroY, { stiffness: 100, damping: 30 });
 
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8000/ws/logs");
+    const ws = new WebSocket(`${WS_URL}/ws/logs`);
     ws.onmessage = (event) => {
       const log = JSON.parse(event.data);
       setLogs((prev) => [...prev, log].slice(-50));
@@ -302,7 +306,7 @@ export default function NarrativeForge() {
   useEffect(() => {
     const fetchNarratives = async () => {
       try {
-        const res = await fetch("http://localhost:8000/narratives");
+        const res = await fetch(`${API_URL}/narratives`);
         const data = await res.json();
         setNarratives(data);
       } catch (err) { console.error(err); }
@@ -316,7 +320,7 @@ export default function NarrativeForge() {
     if (!isConnected) return alert("Connect Wallet");
     setIsForging(true);
     try {
-      await fetch(`http://localhost:8000/forge/${narrative.theme.replace(/\s+/g, '-')}`, {
+      await fetch(`${API_URL}/forge/${narrative.theme.replace(/\s+/g, '-')}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ composition: narrative.tokens.map((t: any) => ({ symbol: t, weight: 25 })) })
