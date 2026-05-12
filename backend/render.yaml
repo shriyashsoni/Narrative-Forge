@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: narrativeforge-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: SOSO_API_KEY
+        sync: false
+      - key: VALUECHAIN_RPC_URL
+        value: https://testnet-rpc.valuechain.dev
+      - key: PRIVATE_KEY
+        sync: false
