@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+:root {
+  --background: #F2F1E9; /* Aptos Off-White */
+  --foreground: #111827; /* Aptos Charcoal */
+  --aptos-mint: #D9F3E5; /* Aptos Signature Mint */
+  --aptos-mint-dark: #C1EBD4;
+  --accent: #111827;
+  --mono: var(--font-mono), 'JetBrains Mono', monospace;
+  --serif: var(--font-fraunces), 'Fraunces', serif;
+  --sans: var(--font-inter), 'Inter', sans-serif;
+}
+
+body {
+  color: var(--foreground);
+  background-color: var(--background);
+  font-family: var(--sans);
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: var(--serif);
+}
+
+@utility aptos-card {
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 2rem;
+  padding: 2.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@utility aptos-card-dark {
+  background-color: var(--foreground);
+  color: white;
+  border-radius: 2.5rem;
+  padding: 3rem;
+}
+
+@utility pill-nav {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 9999px;
+  padding: 0.5rem 1.5rem;
+}
+
+@utility btn-primary {
+  background-color: var(--foreground);
+  color: white;
+  border-radius: 9999px;
+  padding: 1rem 2rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: scale(1.02);
+}
+
+@utility badge-mono {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  background-color: var(--aptos-mint);
+  color: var(--foreground);
+  font-weight: 700;
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Advanced After Effects Style Textures */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+}
+
+.scanning-beam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--aptos-mint), transparent);
+  animation: scan 4s linear infinite;
+  opacity: 0.5;
+  z-index: 20;
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+.mint-glow-follow {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle at center, var(--aptos-mint) 0%, transparent 70%);
+  filter: blur(100px);
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.motion-blur-in {
+  filter: blur(10px);
+  opacity: 0;
+  animation: motionBlurIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes motionBlurIn {
+  to { filter: blur(0); opacity: 1; }
+}
+
+/* Custom Scrollbar for Premium Feel */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--foreground);
+  border-radius: 10px;
+  opacity: 0.2;
+}

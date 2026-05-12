@@ -1,0 +1,44 @@
+/**
+ * NarrativeForge Documentation Theme (Aptos Inspired)
+ */
+
+:root {
+  --ifm-color-primary: #111827; /* Charcoal */
+  --ifm-color-primary-dark: #000000;
+  --ifm-color-primary-darker: #000000;
+  --ifm-color-primary-darkest: #000000;
+  --ifm-color-primary-light: #1f2937;
+  --ifm-color-primary-lighter: #374151;
+  --ifm-color-primary-lightest: #4b5563;
+  --ifm-background-color: #F2F1E9; /* Off-white background */
+  --ifm-navbar-background-color: #ffffff;
+  --ifm-footer-background-color: #111827;
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+  --ifm-heading-font-family: 'Fraunces', serif;
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #D9F3E5; /* Mint */
+  --ifm-color-primary-dark: #C1EBD4;
+  --ifm-color-primary-darker: #A9E3C3;
+  --ifm-color-primary-darkest: #91DAB2;
+  --ifm-color-primary-light: #F0FBF5;
+  --ifm-color-primary-lighter: #F8FDFB;
+  --ifm-color-primary-lightest: #ffffff;
+  --ifm-background-color: #111827;
+  --ifm-navbar-background-color: #111827;
+}
+
+.navbar__brand {
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+
+.footer {
+  padding: 4rem 0;
+}
+
+.admonition {
+  border-radius: 1rem;
+}

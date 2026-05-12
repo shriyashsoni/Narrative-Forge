@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&amp;family=Roboto+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+            cursor: crosshair;
+            overflow-x: hidden;
+        }
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0) 50%,
+                rgba(0, 0, 0, 0.05) 50%
+            );
+            background-size: 100% 4px;
+            z-index: 100;
+            pointer-events: none;
+        }
+        .crt-flicker {
+            animation: flicker 0.15s infinite;
+        }
+        @keyframes flicker {
+            0% { opacity: 0.99; }
+            10% { opacity: 0.98; }
+            20% { opacity: 0.99; }
+            30% { opacity: 0.97; }
+            40% { opacity: 0.99; }
+            50% { opacity: 0.98; }
+            60% { opacity: 0.99; }
+            70% { opacity: 0.97; }
+            80% { opacity: 0.99; }
+            90% { opacity: 0.98; }
+            100% { opacity: 0.99; }
+        }
+        .glitch-border {
+            box-shadow: 2px 0 0 #ff5540, -2px 0 0 #004491;
+        }
+        .grid-bg {
+            background-image: 
+                linear-gradient(to right, #2f1a17 1px, transparent 1px),
+                linear-gradient(to bottom, #2f1a17 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .terminal-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .terminal-scroll::-webkit-scrollbar-track {
+            background: #210e0b;
+        }
+        .terminal-scroll::-webkit-scrollbar-thumb {
+            background: #ffb4a8;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#690005",
+                        "on-background": "#ffdad4",
+                        "on-tertiary-fixed-variant": "#004491",
+                        "outline": "#b18780",
+                        "on-tertiary-fixed": "#001a40",
+                        "surface-container-lowest": "#1b0907",
+                        "on-secondary-container": "#684100",
+                        "on-secondary": "#462a00",
+                        "inverse-primary": "#c00100",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#210e0b",
+                        "primary-fixed-dim": "#ffb4a8",
+                        "surface-bright": "#4c332f",
+                        "tertiary-container": "#488fff",
+                        "on-primary": "#690100",
+                        "secondary-container": "#ffa504",
+                        "primary-fixed": "#ffdad4",
+                        "on-tertiary-container": "#00285b",
+                        "inverse-on-surface": "#422a27",
+                        "error-container": "#93000a",
+                        "tertiary": "#acc7ff",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "tertiary-fixed": "#d7e2ff",
+                        "surface-container-low": "#2b1613",
+                        "surface-container-highest": "#472f2b",
+                        "surface-dim": "#210e0b",
+                        "surface-tint": "#ffb4a8",
+                        "on-tertiary": "#002f67",
+                        "surface-variant": "#472f2b",
+                        "secondary-fixed-dim": "#ffb95c",
+                        "secondary-fixed": "#ffddb7",
+                        "on-secondary-fixed": "#2a1700",
+                        "background": "#210e0b",
+                        "tertiary-fixed-dim": "#acc7ff",
+                        "secondary": "#ffcb8d",
+                        "primary-container": "#ff5540",
+                        "on-primary-container": "#5c0000",
+                        "inverse-surface": "#ffdad4",
+                        "on-surface": "#ffdad4",
+                        "surface-container": "#2f1a17",
+                        "on-surface-variant": "#ebbbb4",
+                        "outline-variant": "#603e39",
+                        "surface-container-high": "#3b2420",
+                        "on-primary-fixed": "#410000",
+                        "primary": "#ffb4a8",
+                        "on-primary-fixed-variant": "#930100",
+                        "error": "#ffb4ab"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "1px",
+                        "grid-unit": "4px",
+                        "margin-xs": "4px",
+                        "margin-sm": "8px",
+                        "border-width": "1px",
+                        "margin-lg": "32px",
+                        "margin-md": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["JetBrains Mono"],
+                        "headline-md": ["JetBrains Mono"],
+                        "label-mono": ["Roboto Mono"],
+                        "body-md": ["JetBrains Mono"],
+                        "headline-xl": ["JetBrains Mono"],
+                        "code-sm": ["Roboto Mono"],
+                        "headline-lg": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "0", "fontWeight": "700"}],
+                        "label-mono": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                        "headline-xl": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.05em", "fontWeight": "800"}],
+                        "code-sm": ["11px", {"lineHeight": "1.2", "letterSpacing": "0", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface selection:bg-primary selection:text-background">
+<div class="scanlines"></div>
+<header class="bg-background border-b border-primary fixed top-0 z-50 w-full flex justify-between items-center px-margin-md py-margin-sm">
+<div class="flex items-center gap-margin-md">
+<span class="material-symbols-outlined text-primary" data-icon="terminal">terminal</span>
+<h1 class="font-headline-lg text-headline-lg font-black text-primary italic animate-pulse tracking-tighter">NARRATIVEFORGE</h1>
+</div>
+<div class="flex items-center gap-margin-sm">
+<span class="w-3 h-3 bg-primary animate-ping"></span>
+<span class="font-label-mono text-primary uppercase tracking-tighter">SYS_ONLINE</span>
+</div>
+</header>
+<main class="pt-20 pb-20 px-margin-md min-h-screen grid grid-cols-12 gap-gutter bg-grid grid-bg">
+<!-- Section 1: Active Narratives -->
+<aside class="col-span-12 lg:col-span-3 border border-primary bg-surface/80 backdrop-blur-sm p-margin-md">
+<div class="border-b border-primary pb-margin-sm mb-margin-md flex justify-between items-center">
+<h2 class="font-headline-md text-headline-md text-primary uppercase">ACTIVE NARRATIVES</h2>
+<span class="font-label-mono text-outline">[LIVE_FEED]</span>
+</div>
+<div class="space-y-gutter">
+<div class="group border border-primary p-margin-sm bg-background hover:bg-primary transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="font-headline-md text-primary group-hover:text-background">AI</span>
+<span class="text-primary group-hover:text-background font-bold">+82.4%</span>
+</div>
+<div class="mt-margin-xs flex items-center justify-between font-code-sm text-outline group-hover:text-background">
+<span>MOMENTUM: HIGH</span>
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+</div>
+</div>
+<div class="group border border-primary p-margin-sm bg-background hover:bg-primary transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="font-headline-md text-primary group-hover:text-background">RWA</span>
+<span class="text-primary group-hover:text-background font-bold">+12.1%</span>
+</div>
+<div class="mt-margin-xs flex items-center justify-between font-code-sm text-outline group-hover:text-background">
+<span>MOMENTUM: STABLE</span>
+<span class="material-symbols-outlined text-sm" data-icon="trending_flat">trending_flat</span>
+</div>
+</div>
+<div class="group border border-primary p-margin-sm bg-background hover:bg-primary transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<span class="font-headline-md text-primary group-hover:text-background">L2</span>
+<span class="text-error group-hover:text-background font-bold">-4.8%</span>
+</div>
+<div class="mt-margin-xs flex items-center justify-between font-code-sm text-outline group-hover:text-background">
+<span>MOMENTUM: DECAY</span>
+<span class="material-symbols-outlined text-sm" data-icon="trending_down">trending_down</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Section 2: Narrative Detail (Chart) -->
+<section class="col-span-12 lg:col-span-6 border border-primary bg-background p-margin-md flex flex-col">
+<div class="flex justify-between items-end mb-margin-md">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary uppercase">NARRATIVE DETAIL: AI_CORE</h2>
+<p class="font-label-mono text-on-surface-variant">VOL_24H: $2.4B | PEAK_VOL: $3.8B</p>
+</div>
+<div class="text-right">
+<span class="font-headline-lg text-primary block">942.82</span>
+<span class="font-label-mono text-outline">INDEX_SCORE</span>
+</div>
+</div>
+<div class="flex-grow border border-outline relative overflow-hidden bg-surface-container-lowest">
+<div class="absolute inset-0 opacity-20 pointer-events-none">
+<svg class="stroke-primary" height="100%" width="100%">
+<path d="M0 100 L50 80 L100 90 L150 40 L200 60 L250 20 L300 50 L350 10 L400 30 L450 0" fill="none" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+</svg>
+</div>
+<img class="w-full h-full object-cover mix-blend-overlay opacity-40" data-alt="A high-contrast digital financial chart visualization in a cyber-brutalist style. The background is pitch black with a faint white grid. Sharp, jagged lines in neon red and vibrant orange represent data volatility. The aesthetic is inspired by tactical military HUDs and mainframe terminal interfaces, featuring monospaced text and diagnostic data points." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwDNK379viGo9Kw-xbNnEHMz3mFPXaM7vCWxXkgURCrBs30R_ILlYn15kH6mxlzizmCsd4QhH6mxFBMJh2CTChr52rTXTcnMkGXI8DKop39GKt7XX1nxQxbwvq0S7sug9-wLHYLlNNmnpCkH9MD8BlWYScJQu3HBQwqBHYKjRbRAAodTrowN1n6eWOb264kKpFEpcu7hhSTZsP03T98tdgz9zGyF-cY8AdPQGiW1o8E_LtVmrkmV1I18cG0oe_nZSO06VJjAArEZQ"/>
+<!-- Chart HUD Elements -->
+<div class="absolute top-margin-sm right-margin-sm border border-primary bg-background p-margin-xs font-code-sm text-primary">
+                    DATA_LOCK: [TRUE]<br/>
+                    REFRESH: 120ms
+                </div>
+</div>
+</section>
+<!-- Section 3: Top 5 Tokens Grid -->
+<section class="col-span-12 lg:col-span-3 border border-primary bg-surface/80 p-margin-md">
+<h2 class="font-headline-md text-headline-md text-primary uppercase border-b border-primary pb-margin-sm mb-margin-md">TOP ASSETS</h2>
+<div class="grid grid-cols-1 gap-gutter">
+<div class="border border-outline p-margin-sm flex justify-between items-center hover:border-primary transition-colors">
+<div>
+<span class="font-bold text-primary">FET</span>
+<p class="text-xs text-outline">Fetch.ai</p>
+</div>
+<div class="text-right">
+<div class="font-bold">$2.41</div>
+<div class="text-xs text-primary">+12.4%</div>
+</div>
+</div>
+<div class="border border-outline p-margin-sm flex justify-between items-center hover:border-primary transition-colors">
+<div>
+<span class="font-bold text-primary">RNDR</span>
+<p class="text-xs text-outline">Render</p>
+</div>
+<div class="text-right">
+<div class="font-bold">$10.21</div>
+<div class="text-xs text-primary">+8.1%</div>
+</div>
+</div>
+<div class="border border-outline p-margin-sm flex justify-between items-center hover:border-primary transition-colors">
+<div>
+<span class="font-bold text-primary">AKT</span>
+<p class="text-xs text-outline">Akash</p>
+</div>
+<div class="text-right">
+<div class="font-bold">$5.82</div>
+<div class="text-xs text-error">-2.1%</div>
+</div>
+</div>
+<div class="border border-outline p-margin-sm flex justify-between items-center hover:border-primary transition-colors">
+<div>
+<span class="font-bold text-primary">TAO</span>
+<p class="text-xs text-outline">Bittensor</p>
+</div>
+<div class="text-right">
+<div class="font-bold">$451.09</div>
+<div class="text-xs text-primary">+15.7%</div>
+</div>
+</div>
+<div class="border border-outline p-margin-sm flex justify-between items-center hover:border-primary transition-colors">
+<div>
+<span class="font-bold text-primary">NEAR</span>
+<p class="text-xs text-outline">Protocol</p>
+</div>
+<div class="text-right">
+<div class="font-bold">$7.12</div>
+<div class="text-xs text-primary">+4.3%</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: SSI Index Builder & Action -->
+<section class="col-span-12 lg:col-span-12 mt-margin-md grid grid-cols-12 gap-margin-md">
+<div class="col-span-12 lg:col-span-8 border border-primary bg-background p-margin-md">
+<h3 class="font-headline-md text-headline-md text-primary uppercase mb-margin-md">SSI INDEX BUILDER_V2</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-margin-md mb-margin-md">
+<div class="space-y-margin-xs">
+<label class="font-label-mono text-outline text-xs block">TARGET WEIGHT (%)</label>
+<input class="w-full bg-surface border border-outline text-primary px-margin-sm py-margin-xs focus:border-primary outline-none font-headline-md" type="text" value="33.3"/>
+</div>
+<div class="space-y-margin-xs">
+<label class="font-label-mono text-outline text-xs block">DRIFT TOLERANCE</label>
+<select class="w-full bg-surface border border-outline text-primary px-margin-sm py-margin-xs focus:border-primary outline-none font-headline-md appearance-none">
+<option>LOW (0.5%)</option>
+<option>MED (1.5%)</option>
+<option>AGGRESSIVE (3.0%)</option>
+</select>
+</div>
+<div class="space-y-margin-xs">
+<label class="font-label-mono text-outline text-xs block">GAS STRATEGY</label>
+<div class="flex border border-outline">
+<button class="flex-1 bg-primary text-background p-margin-xs font-bold">ECON</button>
+<button class="flex-1 bg-surface text-primary p-margin-xs font-bold border-l border-outline hover:bg-primary/20">BOOST</button>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant pt-margin-md flex items-center justify-between">
+<div class="flex gap-margin-md">
+<div class="flex items-center gap-margin-xs">
+<span class="w-2 h-2 bg-primary"></span>
+<span class="text-xs font-label-mono">REBALANCE_ACTIVE</span>
+</div>
+<div class="flex items-center gap-margin-xs">
+<span class="w-2 h-2 bg-on-tertiary-fixed-variant"></span>
+<span class="text-xs font-label-mono">SYNC_LOCK: OK</span>
+</div>
+</div>
+<button class="bg-primary text-background px-margin-lg py-margin-md font-headline-md hover:ring-2 hover:ring-primary hover:ring-offset-2 hover:ring-offset-background active:translate-x-0.5 active:translate-y-0.5 transition-all uppercase">
+                        PUBLISH TO SSI
+                    </button>
+</div>
+</div>
+<!-- Terminal Console Area -->
+<div class="col-span-12 lg:col-span-4 border border-primary bg-surface p-margin-md h-full min-h-[200px]">
+<div class="flex justify-between items-center mb-margin-sm">
+<span class="font-label-mono text-primary text-xs tracking-widest">SYSTEM_LOGS</span>
+<span class="material-symbols-outlined text-sm text-outline" data-icon="terminal">terminal</span>
+</div>
+<div class="terminal-scroll h-32 overflow-y-auto font-code-sm text-outline space-y-1">
+<p class="text-primary-fixed-dim">&gt; [14:22:01] AUTO-REBALANCE ENABLED FOR CLUSTER_AI</p>
+<p>&gt; [14:21:45] LAST SYNC: BLOCK_8422109 COMPLETED</p>
+<p>&gt; [14:21:30] HEARTBEAT: NODE_TX_01 RESPONSE 4ms</p>
+<p class="text-error">&gt; [14:21:12] WARNING: LIQUIDITY DEPTH SHIFT AT BINANCE_USDT</p>
+<p>&gt; [14:20:55] AGENT_ALPHA SCANNING SOCIAL_SENTIMENT...</p>
+<p>&gt; [14:20:10] PARSING MACRO_DATA: CPI_INDEX INCOMING</p>
+<p class="text-secondary">&gt; [14:19:42] SYSTEM OPTIMIZATION IN PROGRESS...</p>
+<p>&gt; [14:19:01] SOCKET_ESTABLISHED: WEBSOCKET_CORE_02</p>
+</div>
+<div class="mt-margin-md border-t border-outline-variant pt-margin-sm flex items-center">
+<span class="text-primary mr-2">&gt;</span>
+<input class="w-full bg-transparent border-none text-primary focus:ring-0 font-code-sm p-0" placeholder="CMD_INPUT..." type="text"/>
+<span class="animate-pulse bg-primary w-2 h-4"></span>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation from JSON -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-stretch h-16 bg-background border-t border-primary">
+<a class="flex flex-col items-center justify-center bg-primary text-background p-margin-sm flex-1 ring-1 ring-primary" href="#">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span class="font-label-mono text-label-mono uppercase">TERMINAL</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary p-margin-sm flex-1 hover:bg-primary-container hover:text-on-primary-container" href="#">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+<span class="font-label-mono text-label-mono uppercase">INDEXES</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary p-margin-sm flex-1 hover:bg-primary-container hover:text-on-primary-container" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="font-label-mono text-label-mono uppercase">MARKET</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary p-margin-sm flex-1 hover:bg-primary-container hover:text-on-primary-container" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-mono text-label-mono uppercase">DOCS</span>
+</a>
+</nav>
+<!-- CRT Glitch Overlays -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none z-[1000] opacity-[0.02] crt-flicker bg-white"></div>
+<div class="fixed top-0 left-0 w-2 h-full bg-primary/10 pointer-events-none z-[1000]"></div>
+</body></html>
