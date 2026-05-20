@@ -12,6 +12,9 @@ NarrativeForge is a state-of-the-art autonomous platform designed to bridge the 
 
 ---
 
+<img width="1919" height="1063" alt="image" src="https://github.com/user-attachments/assets/90318a78-cbc4-484a-a5f2-cd6d6494d238" />
+
+
 ## 🏗️ **Architecture & Workflow**
 
 The system operates as a continuous research-to-execution cycle, synthesizing world-class intelligence with agentic decision-making.
