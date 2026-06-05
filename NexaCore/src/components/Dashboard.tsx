@@ -182,10 +182,13 @@ export default function Dashboard() {
   const { isConnected, address, chain } = useAccount();
 
   useEffect(() => {
-    const ws = new WebSocket(`ws://${window.location.host}/api/ws/logs`);
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const ws = new WebSocket(`${protocol}//${window.location.host}/api/ws/logs`);
     ws.onmessage = (event) => {
-      const log = JSON.parse(event.data);
-      setLogs((prev) => [...prev, log].slice(-50));
+      try {
+        const log = JSON.parse(event.data);
+        setLogs((prev) => [...prev, log].slice(-50));
+      } catch (e) {}
     };
     return () => ws.close();
   }, []);
@@ -196,8 +199,11 @@ export default function Dashboard() {
     const fetchNarratives = async () => {
       try {
         const res = await fetch(`/api/narratives`);
+        if (!res.ok) return;
         const data = await res.json();
-        if (data && data.length > 0) setNarratives(data);
+        if (Array.isArray(data) && data.length > 0) {
+          setNarratives(data);
+        }
       } catch (err) { console.error(err); }
     };
     fetchNarratives();
@@ -258,15 +264,15 @@ export default function Dashboard() {
               <span className="text-green-500 animate-pulse">● LIVE</span>
             </div>
             <div ref={scrollRef} className="flex-1 overflow-y-auto space-y-2 pr-2 custom-scrollbar">
-              {logs.map((log, i) => (
+              {logs?.map((log, i) => (
                 <div key={i} className="border-l-2 border-[#1f2937] pl-2 py-1">
-                  <span className="text-gray-500 mr-2">[{log.time}]</span>
-                  <span className={log.type === 'error' ? 'text-red-400' : log.type === 'success' ? 'text-green-400' : 'text-gray-300'}>
-                    {log.msg}
+                  <span className="text-gray-500 mr-2">[{log?.time}]</span>
+                  <span className={log?.type === 'error' ? 'text-red-400' : log?.type === 'success' ? 'text-green-400' : 'text-gray-300'}>
+                    {log?.msg}
                   </span>
                 </div>
               ))}
-              {logs.length === 0 && <div className="text-gray-600 italic">Initializing SoSoValue websocket stream...</div>}
+              {(!logs || logs.length === 0) && <div className="text-gray-600 italic">Initializing SoSoValue websocket stream...</div>}
             </div>
           </div>
           
