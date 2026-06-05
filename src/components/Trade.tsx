@@ -72,6 +72,18 @@ export default function Trade() {
   const [amount, setAmount] = useState("0.1");
   const [tradeLogs, setTradeLogs] = useState<any[]>([]);
 
+  // Load saved trade history when wallet connects
+  useEffect(() => {
+    if (address) {
+      const saved = localStorage.getItem(`sodex_trades_${address}`);
+      if (saved) {
+        try { setTradeLogs(JSON.parse(saved)); } catch (e) {}
+      }
+    } else {
+      setTradeLogs([]); // Clear if disconnected
+    }
+  }, [address]);
+
   // On-Chain Execution Setup
   const { sendTransactionAsync, isPending } = useSendTransaction();
   const [isConfirming, setIsConfirming] = useState(false);
@@ -91,14 +103,19 @@ export default function Trade() {
       // Optimistic UI update: bypass slow public RPC polling
       setTimeout(() => {
         setIsConfirming(false);
-        setTradeLogs(prev => [{
-          type: type,
-          time: new Date().toLocaleTimeString(),
-          pair: `${symbol}/USDT`,
-          size: amount,
-          hash: txHash,
-          url: `https://sepolia.etherscan.io/tx/${txHash}`
-        }, ...prev]);
+        setTradeLogs(prev => {
+          const newLog = {
+            type: type,
+            time: new Date().toLocaleTimeString(),
+            pair: `${symbol}/USDT`,
+            size: amount,
+            hash: txHash,
+            url: `https://sepolia.etherscan.io/tx/${txHash}`
+          };
+          const updated = [newLog, ...prev];
+          localStorage.setItem(`sodex_trades_${address}`, JSON.stringify(updated));
+          return updated;
+        });
       }, 3000);
 
     } catch (err: any) { 

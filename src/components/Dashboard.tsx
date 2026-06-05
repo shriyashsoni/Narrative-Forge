@@ -187,6 +187,18 @@ export default function Dashboard() {
   const [narratives, setNarratives] = useState<any[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [txHistory, setTxHistory] = useState<any[]>([]);
+
+  // Load saved transaction history when wallet connects
+  useEffect(() => {
+    if (address) {
+      const saved = localStorage.getItem(`forge_txs_${address}`);
+      if (saved) {
+        try { setTxHistory(JSON.parse(saved)); } catch (e) {}
+      }
+    } else {
+      setTxHistory([]); // Clear if disconnected
+    }
+  }, [address]);
   const [agreed, setAgreed] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { isConnected, address, chain } = useAccount();
@@ -273,7 +285,14 @@ export default function Dashboard() {
   const activeNarrative = narratives[selectedIndex] || narratives[0] || {};
 
   const handleTxSuccess = (tx: any) => {
-    setTxHistory((prev) => [{...tx, theme: activeNarrative.theme, time: new Date().toLocaleTimeString()}, ...prev]);
+    setTxHistory((prev) => {
+      const newTx = {...tx, theme: activeNarrative.theme, time: new Date().toLocaleTimeString()};
+      const updated = [newTx, ...prev];
+      if (address) {
+        localStorage.setItem(`forge_txs_${address}`, JSON.stringify(updated));
+      }
+      return updated;
+    });
   };
 
   if (!isConnected) {
