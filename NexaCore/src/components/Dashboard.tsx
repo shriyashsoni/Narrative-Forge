@@ -68,7 +68,7 @@ const MarketChart = ({ symbol }: { symbol: string }) => {
 
 const TradePanel = ({ narrative, onSuccess }: any) => {
   const { isConnected, address, chain } = useAccount();
-  const { data: hash, writeContract, isPending } = useWriteContract();
+  const { data: hash, writeContractAsync, isPending } = useWriteContract();
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
   
   const [amount, setAmount] = useState("0.1");
@@ -101,16 +101,17 @@ const TradePanel = ({ narrative, onSuccess }: any) => {
       const remainder = 10000 % narrative.tokens.length;
       const weights = narrative.tokens.map((_, i: number) => BigInt(baseWeight + (i < remainder ? 1 : 0)));
 
-      writeContract({
+      await writeContractAsync({
         address: '0xCE2979887785d415b407727CDd8f6Ed752AAE335',
         abi: SSI_ABI,
         functionName: 'publishIndex',
         args: [narrative.theme, narrative.tokens, weights],
-        chainId: 11155111 // Explicitly force Sepolia network
+        chainId: 11155111, // Explicitly force Sepolia network
+        gas: BigInt(500000) // Bypass wagmi gas estimation so MetaMask actually opens
       } as any);
     } catch (e: any) {
       console.error(e);
-      alert("Error initiating transaction: " + (e.message || e));
+      alert("Error: " + (e.shortMessage || e.message || "Simulation or connection failed. Check console."));
     }
   };
 
