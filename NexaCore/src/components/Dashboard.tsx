@@ -72,7 +72,6 @@ const TradePanel = ({ narrative, onSuccess }: any) => {
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
   
   const [amount, setAmount] = useState("0.1");
-  const [trading, setTrading] = useState(false);
   const [result, setResult] = useState<any>(null);
 
   const SSI_ABI = [
@@ -102,7 +101,7 @@ const TradePanel = ({ narrative, onSuccess }: any) => {
         functionName: 'publishIndex',
         args: [narrative.theme, narrative.tokens, weights],
         chainId: 11155111 // Explicitly force Sepolia network
-      });
+      } as any);
     } catch (e) {
       console.error(e);
     }
@@ -117,11 +116,7 @@ const TradePanel = ({ narrative, onSuccess }: any) => {
     }
   }, [isConfirmed, hash, chain]);
 
-  const handleExecute = async () => {
-    setTrading(true);
-    await onTrade(narrative, amount);
-    setTrading(false);
-  };
+
 
   return (
     <div className="bg-[#0b0e14] border border-[#1f2937] rounded-lg p-4 flex flex-col gap-4 font-mono">
