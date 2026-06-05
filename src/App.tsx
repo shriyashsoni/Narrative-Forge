@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard';
 import Trade from './components/Trade';
 import Contracts from './components/Contracts';
 import DeveloperDocs from './components/DeveloperDocs';
+import Footer from './components/Footer';
 import { useAccount } from 'wagmi';
 
 function LandingPage() {
@@ -18,6 +19,7 @@ function LandingPage() {
       <TrustedSection />
       <FreedomSection />
       <PrecisionSection />
+      <Footer />
     </>
   );
 }
