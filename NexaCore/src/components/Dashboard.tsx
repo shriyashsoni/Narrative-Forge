@@ -178,8 +178,20 @@ export default function Dashboard() {
   const [narratives, setNarratives] = useState<any[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [txHistory, setTxHistory] = useState<any[]>([]);
+  const [agreed, setAgreed] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { isConnected, address, chain } = useAccount();
+
+  useEffect(() => {
+    if (localStorage.getItem("narrativeForgeTermsAgreed") === "true") {
+      setAgreed(true);
+    }
+  }, []);
+
+  const handleAgree = () => {
+    localStorage.setItem("narrativeForgeTermsAgreed", "true");
+    setAgreed(true);
+  };
 
   useEffect(() => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
@@ -228,6 +240,42 @@ export default function Dashboard() {
           </p>
           <div className="mt-4">
              <p className="text-brand-purple font-bold tracking-widest text-xs animate-pulse">CONNECT WALLET IN TOP RIGHT</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isConnected && !agreed) {
+    return (
+      <div className="min-h-screen bg-[#05070A] flex flex-col items-center justify-center font-mono px-4">
+        <div className="bg-[#0b0e14] border border-[#1f2937] p-8 md:p-12 rounded-2xl flex flex-col max-w-2xl shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-brand-purple" />
+          <div className="flex items-center gap-4 mb-6 text-yellow-500">
+            <ShieldAlert size={32} />
+            <h2 className="text-2xl font-bold tracking-tight text-white uppercase">Risk Disclaimer & Terms</h2>
+          </div>
+          
+          <div className="space-y-4 text-gray-400 text-sm leading-relaxed mb-8 h-48 overflow-y-auto custom-scrollbar pr-4">
+            <p><strong>1. Experimental Protocol:</strong> NarrativeForge is an experimental, AI-driven autonomous protocol. It is provided "AS IS" and "AS AVAILABLE" without warranties of any kind.</p>
+            <p><strong>2. Financial Risk:</strong> Trading cryptocurrencies involves significant risk. The AI-generated signals and automated index composition strategies do NOT constitute financial advice.</p>
+            <p><strong>3. Smart Contract Risk:</strong> By interacting with the SSI Protocol, you acknowledge the inherent risks of smart contract vulnerabilities. You are responsible for any capital deployed.</p>
+            <p><strong>4. No Liability:</strong> The developers, contributors, and affiliated entities of NarrativeForge shall not be held liable for any direct or indirect losses incurred through the use of this terminal.</p>
+          </div>
+
+          <div className="flex flex-col gap-4">
+             <button 
+               onClick={handleAgree}
+               className="w-full bg-brand-purple hover:bg-brand-purple/80 text-white font-bold tracking-widest uppercase py-4 rounded transition-all shadow-[0_0_20px_rgba(200,111,255,0.2)]"
+             >
+               I Understand and Agree
+             </button>
+             <button 
+               onClick={() => window.location.href = "/"}
+               className="w-full bg-transparent border border-[#1f2937] hover:bg-[#1f2937] text-gray-400 font-bold tracking-widest uppercase py-4 rounded transition-all"
+             >
+               Decline and Return
+             </button>
           </div>
         </div>
       </div>
