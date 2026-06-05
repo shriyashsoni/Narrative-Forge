@@ -19,8 +19,8 @@ const Navbar = () => {
 
   const { isConnected } = useAccount();
   const navLinks = isConnected 
-    ? ["Home", "Platform", "Forge", "Trade", "Docs"]
-    : ["Home", "Platform", "Docs"];
+    ? ["Home", "How it Works", "Forge", "Trade", "Docs"]
+    : ["Home", "How it Works", "Docs"];
 
   return (
     <div className="fixed top-4 left-0 right-0 z-50 flex justify-center pl-4 pr-1.5 pointer-events-none">
@@ -52,7 +52,14 @@ const Navbar = () => {
                 key={i} 
                 onClick={() => {
                   if (link === "Home") navigate('/');
-                  else if (link === "Platform") navigate('/');
+                  else if (link === "How it Works") {
+                    if (window.location.pathname !== '/') {
+                      navigate('/');
+                      setTimeout(() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }), 100);
+                    } else {
+                      document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
                   else if (link === "Forge") navigate('/dashboard');
                   else if (link === "Trade") navigate('/trade');
                   else if (link === "Docs") navigate('/docs');
@@ -128,7 +135,14 @@ const Navbar = () => {
                 key={i} 
                 onClick={() => {
                   if (link === "Home") navigate('/');
-                  else if (link === "Platform") navigate('/');
+                  else if (link === "How it Works") {
+                    if (window.location.pathname !== '/') {
+                      navigate('/');
+                      setTimeout(() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' }), 100);
+                    } else {
+                      document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
                   else if (link === "Forge") navigate('/dashboard');
                   else if (link === "Trade") navigate('/trade');
                   else if (link === "Docs") navigate('/docs');

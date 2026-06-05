@@ -21,6 +21,7 @@ const FreedomSection = () => {
 
   return (
     <section 
+      id="how-it-works"
       className="flex flex-col items-center bg-white"
       style={{
         padding: 'clamp(48px, 6vw, 80px) clamp(16px, 3vw, 40px)',
