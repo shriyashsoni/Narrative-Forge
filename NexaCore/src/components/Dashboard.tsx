@@ -90,6 +90,12 @@ const TradePanel = ({ narrative, onSuccess }: any) => {
 
   const handleForge = async () => {
     if (!address || !narrative.tokens) return;
+    
+    if (narrative.tokens.length === 0) {
+      alert("⚠️ Cannot forge: This narrative index has no tokens assigned.");
+      return;
+    }
+
     try {
       const baseWeight = Math.floor(10000 / narrative.tokens.length);
       const remainder = 10000 % narrative.tokens.length;
@@ -102,8 +108,9 @@ const TradePanel = ({ narrative, onSuccess }: any) => {
         args: [narrative.theme, narrative.tokens, weights],
         chainId: 11155111 // Explicitly force Sepolia network
       } as any);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
+      alert("Error initiating transaction: " + (e.message || e));
     }
   };
 

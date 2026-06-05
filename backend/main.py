@@ -126,10 +126,10 @@ async def get_narratives():
     return state.current_narratives if state.current_narratives else [
         {
             "id": "mock-ai",
-            "theme": "Awaiting Live Signals...",
-            "momentum": 0,
-            "tokens": [],
-            "description": "Configure API keys in .env to start live narrative extraction."
+            "theme": "Mock Alpha Test Index",
+            "momentum": 85,
+            "tokens": ["LINK", "GRT", "FET", "OCEAN"],
+            "description": "Configure API keys in .env to start live extraction. This is a mock index for testing the Smart Contract forging."
         }
     ]
 
