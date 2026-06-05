@@ -1,6 +1,6 @@
 <div align="center">
   <img src="https://raw.githubusercontent.com/shriyashsoni/Narrative-Forge/main/public/favicon.svg" alt="NarrativeForge Logo" width="120" height="120" />
-  <h1>🔮 NarrativeForge 🔮</h1>
+  <h1>NarrativeForge</h1>
   <p><strong>The First AI-Powered On-Chain Oracle for Decentralized Narrative Trading</strong></p>
   <p><em>Eliminating latency between narrative detection and on-chain execution.</em></p>
   
@@ -11,7 +11,7 @@
 
 <hr />
 
-## 🌟 Vision & Motivation: Why I Built This
+## Vision & Motivation: Why I Built This
 
 The cryptocurrency market moves at the speed of light. Retail traders constantly suffer from a massive latency gap between **narrative formation** (news, social sentiment) and **execution**. Institutional players use closed-loop algorithmic bots to parse data and front-run retail, leaving everyday users reacting to stale information.
 
@@ -21,17 +21,17 @@ NarrativeForge is a decentralized oracle engine. It continuously scrapes metadat
 
 ---
 
-## 🌊 Wave 2 Upgrade: Evolution of the Platform
+## Wave 2 Upgrade: Evolution of the Platform
 
 NarrativeForge didn't start like this. We underwent a massive architectural overhaul during **Wave 2** to shift from a centralized Web2 tool to a fully decentralized Web3 powerhouse.
 
-### 📉 How It Was Before (Wave 1)
+### Previous Architecture (Wave 1)
 - **Centralized Data Silos**: We only displayed static charts scraped via APIs.
 - **No Execution**: Users had to manually copy signals and go to centralized exchanges (CEXs) to place trades.
 - **Generic AI**: Simple prompt outputs that lacked financial precision.
 - **Clunky UI**: Standard templates with poor navigation.
 
-### 🚀 The Wave 2 Upgradation (Now)
+### The Wave 2 Upgrade (Current)
 - **Decentralized On-Chain Execution**: Integrated **Wagmi/Viem** and **RainbowKit** to allow one-click execution directly via Web3 wallets.
 - **SoDEX Router on ValueChain**: Migrated settlement to ValueChain Layer 2 and Ethereum Sepolia to bypass gas fees and utilize the SoDEX Perpetual network.
 - **Institutional AI Oracle**: Overhauled the Python FastAPI backend to use **Gemini 2.5 Flash**, returning precise JSON arrays mapped strictly to token weights (up to 10,000 basis points).
@@ -39,7 +39,7 @@ NarrativeForge didn't start like this. We underwent a massive architectural over
 
 ---
 
-## 🏗️ Whole System Architecture
+## System Architecture
 
 Here is the visual representation of how the NarrativeForge ecosystem processes data from off-chain sentiment to on-chain settlement:
 
@@ -72,7 +72,7 @@ graph TD
 
 ---
 
-## 💻 Technologies & Resources Used
+## Technologies & Resources Used
 
 We utilized a modern, high-performance stack to ensure sub-second inference and Visa-level transaction concurrency.
 
@@ -85,7 +85,7 @@ pie title NarrativeForge Tech Stack Distribution
     "Google Gemini API" : 10
 ```
 
-### 🛠️ Detailed Stack Breakdown
+### Detailed Stack Breakdown
 1. **Frontend Core**: Vite, React 18, TypeScript, Tailwind CSS, Lucide React, Recharts.
 2. **Web3 Integration**: `wagmi`, `viem`, `@rainbow-me/rainbowkit` for WalletConnect and MetaMask integration.
 3. **Backend & AI**: Python 3.10+, FastAPI, `google-generativeai` (Gemini 1.5 Flash), deployed on Vercel Serverless.
@@ -93,7 +93,7 @@ pie title NarrativeForge Tech Stack Distribution
 
 ---
 
-## 📜 Smart Contract Details
+## Smart Contract Details
 
 NarrativeForge interacts with specific testnet layers to ensure scalable execution without massive gas fees during its beta phase.
 
@@ -107,7 +107,7 @@ NarrativeForge interacts with specific testnet layers to ensure scalable executi
 
 ---
 
-## 🙏 Thank You
+## Acknowledgments
 
 Building NarrativeForge has been an incredible journey. Merging AI inference with decentralized blockchain execution is technically extremely complex, requiring synchronization between non-deterministic LLMs and hyper-deterministic smart contracts. 
 
@@ -116,6 +116,6 @@ Thank you to the communities behind **React**, **Wagmi**, **Gemini**, and **Valu
 ---
 
 <div align="center">
-  <p><strong>Crafted with 💜 by Shriyash Soni</strong></p>
+  <p><strong>Crafted by Shriyash Soni</strong></p>
   <a href="https://github.com/shriyashsoni">GitHub</a> • <a href="https://x.com/shriyashsoni">Twitter / X</a>
 </div>
