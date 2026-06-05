@@ -1,15 +1,26 @@
 {
-  "experimentalServices": {
-    "frontend": {
-      "root": "NexaCore",
-      "routePrefix": "/",
-      "framework": "vite"
+  "version": 2,
+  "builds": [
+    {
+      "src": "NexaCore/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
     },
-    "backend": {
-      "root": "backend",
-      "entrypoint": "main.py",
-      "builder": "@vercel/python",
-      "routePrefix": "/api"
+    {
+      "src": "backend/main.py",
+      "use": "@vercel/python"
     }
-  }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/backend/main.py"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/NexaCore/$1"
+    }
+  ]
 }
