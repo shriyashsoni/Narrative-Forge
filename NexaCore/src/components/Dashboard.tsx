@@ -201,15 +201,17 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const ws = new WebSocket(`${protocol}//${window.location.host}/api/ws/logs`);
-    ws.onmessage = (event) => {
+    const fetchLogs = async () => {
       try {
-        const log = JSON.parse(event.data);
-        setLogs((prev) => [...prev, log].slice(-50));
+        const res = await fetch(`/api/logs`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (Array.isArray(data)) setLogs(data.slice(-50));
       } catch (e) {}
     };
-    return () => ws.close();
+    fetchLogs();
+    const interval = setInterval(fetchLogs, 3000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight; }, [logs]);

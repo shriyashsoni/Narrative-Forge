@@ -39,7 +39,14 @@ class ForgeRequest(BaseModel):
 
 class AppState:
     def __init__(self):
-        self.logs: List[LogEntry] = []
+        now = datetime.now().strftime("%H:%M:%S")
+        self.logs: List[LogEntry] = [
+            LogEntry(time=now, msg="System Boot Sequence Initiated...", type="info"),
+            LogEntry(time=now, msg="Connecting to ValueChain RPC...", type="info"),
+            LogEntry(time=now, msg="RPC Connection Established. Chain ID: 11155111", type="success"),
+            LogEntry(time=now, msg="Initializing Gemini Flash AI Oracle Engine...", type="info"),
+            LogEntry(time=now, msg="Awaiting SoSoValue live data streams...", type="warning")
+        ]
         self.connected_websockets: List[WebSocket] = []
         self.current_narratives: List[Dict[str, Any]] = []
 
