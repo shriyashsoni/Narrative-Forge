@@ -1,73 +1,73 @@
-# NarrativeForge
+# React + TypeScript + Vite
 
-An institutional-grade, fully autonomous trading agent and on-chain index publisher. 
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-NarrativeForge is designed to act as a **"one-person fund management"** protocol. It autonomously scrapes financial news, identifies emerging market narratives, constructs optimized token baskets via Google Gemini 1.5 Pro, and immutably publishes the index compositions to the Ethereum Sepolia Testnet.
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## 🛠 Platform Architecture (A-Z)
+## React Compiler
 
-The system is decoupled into three robust layers:
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-### 1. Intelligence Layer (Python Backend)
-- **SoSoValue API Integrations:** Real-time WebSocket and REST data scraping of global macro events, breaking regulatory news, and Web3 sector movements.
-- **Gemini 1.5 Pro LLM:** We utilize an off-chain Google Gemini agent powered by extreme Prompt Engineering (no fine-tuning required) to parse unstructured data into actionable `JSON` structures containing Momentum Scores, Narrative Themes, and Token Correlations.
+## Expanding the ESLint configuration
 
-### 2. Execution Layer (React Frontend & Solidity Contracts)
-- **NexaCore Terminal:** A React (Vite/Tailwind) application mirroring institutional terminals (like Bloomberg), equipped with Web3 Authentication (RainbowKit/Wagmi) and live TradingView oracles.
-- **SSI Protocol (Smart Contract):** A custom Solidity smart contract (`SSIProtocol.sol`) deployed on the **Ethereum Sepolia Testnet**. The AI passes a 10,000 basis-point weighting array to the frontend, forcing the user to cryptographically sign and verify the index formation on-chain.
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-### 3. Trading Layer (SoDEX)
-- **Zero-Slippage Matching:** Once an index is verified on-chain, the backend communicates with the `testnet-gw.sodex.dev/api/v1/trade` gateway, signing payloads with a master private key to autonomously execute the spot trades necessary to acquire the index components.
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
----
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-<img width="1919" height="1063" alt="image" src="https://github.com/user-attachments/assets/90318a78-cbc4-484a-a5f2-cd6d6494d238" />
-
-## 📚 Technical Documentation
-
-NarrativeForge comes with an extensive, highly-detailed Docusaurus documentation portal covering all API references, mathematical proofs, and deployment strategies.
-
-To view the documentation locally:
-```bash
-cd docs
-npm install
-npm run start
-```
-This will launch the documentation server at `http://localhost:3000`.
-
----
-
-## 🚀 Quick Start (Running Locally)
-
-### 1. Environment Configuration
-Create a `.env` file in the `/backend` directory containing your keys:
-```env
-GEMINI_API_KEY=your_gemini_key
-SOSO_API_KEY=your_soso_key
-VALUECHAIN_RPC_URL=https://testnet-rpc.valuechain.xyz
-PRIVATE_KEY=your_wallet_private_key
-WALLET_ADDRESS=your_wallet_address
-SSI_PROTOCOL_ADDRESS=0xCE2979887785d415b407727CDd8f6Ed752AAE335
-SODEX_API_KEY_NAME=api-key-01
-SODEX_BASE_URL=https://testnet-gw.sodex.dev/api/v1
-SODEX_CHAIN_ID=138565
-SODEX_IS_TESTNET=true
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
-### 2. Start the AI Python Backend
-```bash
-cd backend
-pip install -r requirements.txt
-python main.py
-```
-*The backend will run on `http://localhost:8000`.*
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-### 3. Start the Trading Terminal Frontend
-```bash
-cd NexaCore  # (or frontend folder)
-npm install
-npm run dev
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-*The terminal will run on `http://localhost:5173`.*
