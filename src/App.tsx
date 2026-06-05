@@ -27,11 +27,7 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    if (isConnected && location.pathname === '/') {
-      navigate('/dashboard');
-    }
-  }, [isConnected, location, navigate]);
+  // Removed forced redirect to allow connected users to visit the homepage
 
   const isDocs = location.pathname === '/docs';
 

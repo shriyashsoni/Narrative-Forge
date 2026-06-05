@@ -19,8 +19,8 @@ const Navbar = () => {
 
   const { isConnected } = useAccount();
   const navLinks = isConnected 
-    ? ["Forge", "Trade", "Contracts", "Docs"]
-    : ["About Us", "Contracts", "Docs"];
+    ? ["Home", "Forge", "Trade", "Contracts", "Docs"]
+    : ["Home", "Contracts", "Docs"];
 
   return (
     <div className="fixed top-4 left-0 right-0 z-50 flex justify-center pl-4 pr-1.5 pointer-events-none">
@@ -33,12 +33,12 @@ const Navbar = () => {
           scrolled ? 'pl-4 pr-2 py-1.5' : 'pl-5 pr-2 py-1.5'
         }`}>
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <div 
+            className="flex items-center gap-2 cursor-pointer"
+            onClick={() => navigate('/')}
+          >
             <img src="/favicon.svg" alt="NarrativeForge Logo" className="w-8 h-8" />
-            <span 
-              className="text-[22px] tracking-[-0.02em] font-medium text-brand-navy cursor-pointer"
-              onClick={() => navigate('/')}
-            >
+            <span className="text-[22px] tracking-[-0.02em] font-medium text-brand-navy">
               NarrativeForge
             </span>
           </div>
@@ -51,8 +51,8 @@ const Navbar = () => {
               <button 
                 key={i} 
                 onClick={() => {
-                  if (link === "Forge") navigate('/dashboard');
-                  else if (link === "About Us") navigate('/');
+                  if (link === "Home") navigate('/');
+                  else if (link === "Forge") navigate('/dashboard');
                   else if (link === "Trade") navigate('/trade');
                   else if (link === "Contracts") navigate('/contracts');
                   else if (link === "Docs") navigate('/docs');
@@ -127,8 +127,8 @@ const Navbar = () => {
               <button 
                 key={i} 
                 onClick={() => {
-                  if (link === "Forge") navigate('/dashboard');
-                  else if (link === "About Us") navigate('/');
+                  if (link === "Home") navigate('/');
+                  else if (link === "Forge") navigate('/dashboard');
                   else if (link === "Trade") navigate('/trade');
                   else if (link === "Contracts") navigate('/contracts');
                   else if (link === "Docs") navigate('/docs');
