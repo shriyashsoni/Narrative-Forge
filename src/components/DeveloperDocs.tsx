@@ -26,27 +26,27 @@ const DeveloperDocs = () => {
   const navStructure = [
     {
       title: 'Getting Started',
-      icon: <span>🚀</span>,
+      icon: <Zap size={16} />,
       items: ['Introduction', 'Platform Vision', 'Dashboard Guide']
     },
     {
       title: 'Core Architecture',
-      icon: <span>⚙️</span>,
+      icon: <Book size={16} />,
       items: ['AI Oracle Engine', 'On-Chain Execution', 'Data Aggregation']
     },
     {
       title: 'Smart Contracts',
-      icon: <span>📜</span>,
+      icon: <Code size={16} />,
       items: ['Contract Addresses', 'SoDEX Router', 'ValueChain Integration']
     },
     {
       title: 'Technology Stack',
-      icon: <span>🛠️</span>,
+      icon: <Terminal size={16} />,
       items: ['Frontend Stack', 'Backend Infrastructure', 'Web3 & AI']
     },
     {
       title: 'API Reference',
-      icon: <span>🔌</span>,
+      icon: <Code size={16} />,
       items: ['Authentication', 'Narrative Streams', 'Trade Logs']
     }
   ];
@@ -269,9 +269,7 @@ const DeveloperDocs = () => {
           </Link>
 
           <div className="flex items-center gap-2 font-semibold text-lg tracking-tight">
-            <div className={`w-6 h-6 rounded flex items-center justify-center ${isDark ? 'bg-brand-purple text-white' : 'bg-blue-600 text-white'}`}>
-              <Terminal size={14} />
-            </div>
+            <img src="/favicon.svg" alt="NarrativeForge Logo" className="w-6 h-6" />
             <span className="hidden sm:block">NarrativeForge</span>
             <span className={`text-xs px-2 py-0.5 rounded-full font-medium ml-2 ${isDark ? 'bg-[#262626] text-[#a3a3a3]' : 'bg-[#f5f5f5] text-[#737373]'}`}>Docs</span>
           </div>
