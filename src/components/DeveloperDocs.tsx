@@ -35,6 +35,16 @@ const DeveloperDocs = () => {
       items: ['AI Oracle Engine', 'On-Chain Execution', 'Data Aggregation']
     },
     {
+      title: 'Smart Contracts',
+      icon: <Code size={16} />,
+      items: ['Contract Addresses', 'SoDEX Router', 'ValueChain Integration']
+    },
+    {
+      title: 'Technology Stack',
+      icon: <Terminal size={16} />,
+      items: ['Frontend Stack', 'Backend Infrastructure', 'Web3 & AI']
+    },
+    {
       title: 'API Reference',
       icon: <Code size={16} />,
       items: ['Authentication', 'Narrative Streams', 'Trade Logs']
@@ -146,6 +156,100 @@ const DeveloperDocs = () => {
         </div>
       </>
     ),
+    'Contract Addresses': (
+      <>
+        <div className={`text-sm font-medium mb-4 ${isDark ? 'text-brand-purple' : 'text-blue-600'}`}>Smart Contracts</div>
+        <h1 className={`text-3xl sm:text-4xl font-bold tracking-tight mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Contract Addresses</h1>
+        <p className={`text-base mb-6 leading-relaxed ${isDark ? 'text-[#a3a3a3]' : 'text-[#525252]'}`}>
+          NarrativeForge integrates with multiple testnet layers to ensure scalable execution without massive gas fees during the beta phase.
+        </p>
+        
+        <h3 className={`text-xl font-bold mt-8 mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Ethereum Sepolia (Layer 1)</h3>
+        <div className={`rounded-lg overflow-hidden border mb-8 ${isDark ? 'border-[#262626]' : 'border-[#e5e5e5]'}`}>
+          <table className="w-full text-left text-sm">
+            <thead className={`border-b ${isDark ? 'bg-[#171717] border-[#262626] text-[#a3a3a3]' : 'bg-[#fafafa] border-[#e5e5e5] text-[#737373]'}`}>
+              <tr>
+                <th className="px-4 py-3 font-medium">Contract Name</th>
+                <th className="px-4 py-3 font-medium">Address</th>
+              </tr>
+            </thead>
+            <tbody className={`divide-y ${isDark ? 'divide-[#262626] bg-[#0a0a0a]' : 'divide-[#e5e5e5] bg-white'}`}>
+              <tr>
+                <td className="px-4 py-4 font-medium">SoDEX Router</td>
+                <td className="px-4 py-4 font-mono text-xs text-brand-purple">0xCE2979887785d415b407727CDd8f6Ed752AAE335</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-4 font-medium">USDT Mock Token</td>
+                <td className="px-4 py-4 font-mono text-xs text-brand-purple">0x7169D38820dfd117C3FA1f22a697dBA58d90BA06</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <h3 className={`text-xl font-bold mt-8 mb-4 ${isDark ? 'text-white' : 'text-black'}`}>ValueChain (Layer 2)</h3>
+        <p className={`text-sm mb-4 ${isDark ? 'text-[#a3a3a3]' : 'text-[#525252]'}`}>We utilize ValueChain for high-throughput narrative forging logs. RPC: <code>https://testnet-rpc.valuechain.dev</code> (Chain ID: 138565)</p>
+      </>
+    ),
+    'Frontend Stack': (
+      <>
+        <div className={`text-sm font-medium mb-4 ${isDark ? 'text-brand-purple' : 'text-blue-600'}`}>Technology Stack</div>
+        <h1 className={`text-3xl sm:text-4xl font-bold tracking-tight mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Frontend Technologies</h1>
+        <p className={`text-base mb-6 leading-relaxed ${isDark ? 'text-[#a3a3a3]' : 'text-[#525252]'}`}>
+          The NarrativeForge application is built for maximum speed and absolute visual precision.
+        </p>
+        <ul className={`list-none space-y-4 mb-8 ${isDark ? 'text-[#a3a3a3]' : 'text-[#525252]'}`}>
+          <li className={`p-4 rounded border ${isDark ? 'bg-[#171717] border-[#262626]' : 'bg-[#fafafa] border-[#e5e5e5]'}`}>
+            <strong className={isDark ? 'text-white' : 'text-black'}>Vite + React (TypeScript):</strong> chosen over Next.js specifically for its lightning-fast Hot Module Replacement (HMR) and raw SPA performance in trading environments.
+          </li>
+          <li className={`p-4 rounded border ${isDark ? 'bg-[#171717] border-[#262626]' : 'bg-[#fafafa] border-[#e5e5e5]'}`}>
+            <strong className={isDark ? 'text-white' : 'text-black'}>Tailwind CSS:</strong> We utilize strict Tailwind utility classes and completely bypass external component libraries to maintain 100% control over the DOM layout.
+          </li>
+          <li className={`p-4 rounded border ${isDark ? 'bg-[#171717] border-[#262626]' : 'bg-[#fafafa] border-[#e5e5e5]'}`}>
+            <strong className={isDark ? 'text-white' : 'text-black'}>Lucide React & Recharts:</strong> Used for clean, stroke-based SVGs and high-performance SVG canvas charts in the trading interface.
+          </li>
+        </ul>
+      </>
+    ),
+    'Backend Infrastructure': (
+      <>
+        <div className={`text-sm font-medium mb-4 ${isDark ? 'text-brand-purple' : 'text-blue-600'}`}>Technology Stack</div>
+        <h1 className={`text-3xl sm:text-4xl font-bold tracking-tight mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Backend Infrastructure</h1>
+        <p className={`text-base mb-6 leading-relaxed ${isDark ? 'text-[#a3a3a3]' : 'text-[#525252]'}`}>
+          Our backend engine processes gigabytes of data and distills it into frontend-consumable JSON via serverless architectures.
+        </p>
+        <ul className={`list-none space-y-4 mb-8 ${isDark ? 'text-[#a3a3a3]' : 'text-[#525252]'}`}>
+          <li className={`p-4 rounded border ${isDark ? 'bg-[#171717] border-[#262626]' : 'bg-[#fafafa] border-[#e5e5e5]'}`}>
+            <strong className={isDark ? 'text-white' : 'text-black'}>Python 3.10+ FastAPI:</strong> The highest-performance asynchronous web framework in Python, chosen specifically to handle concurrent LLM requests and blockchain RPC polling without blocking.
+          </li>
+          <li className={`p-4 rounded border ${isDark ? 'bg-[#171717] border-[#262626]' : 'bg-[#fafafa] border-[#e5e5e5]'}`}>
+            <strong className={isDark ? 'text-white' : 'text-black'}>Vercel Serverless:</strong> Deployed as an integrated monorepo via <code>@vercel/python</code>. We use serverless rewrites (<code>/api/*</code>) to bypass CORS issues entirely and serve the AI engine dynamically.
+          </li>
+        </ul>
+      </>
+    ),
+    'Web3 & AI': (
+      <>
+        <div className={`text-sm font-medium mb-4 ${isDark ? 'text-brand-purple' : 'text-blue-600'}`}>Technology Stack</div>
+        <h1 className={`text-3xl sm:text-4xl font-bold tracking-tight mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Web3 & AI Integrations</h1>
+        <p className={`text-base mb-6 leading-relaxed ${isDark ? 'text-[#a3a3a3]' : 'text-[#525252]'}`}>
+          The bridge between traditional Web2 intelligence and Web3 decentralization.
+        </p>
+        <ul className={`list-none space-y-4 mb-8 ${isDark ? 'text-[#a3a3a3]' : 'text-[#525252]'}`}>
+          <li className={`p-4 rounded border flex flex-col gap-2 ${isDark ? 'bg-[#171717] border-[#262626]' : 'bg-[#fafafa] border-[#e5e5e5]'}`}>
+            <strong className={isDark ? 'text-white' : 'text-black'}>Google Gemini 2.5 Flash API</strong>
+            <span className={`text-sm ${isDark ? 'text-[#a3a3a3]' : 'text-[#525252]'}`}>Used for massive context window ingestion. We parse raw JSON from SoSoValue and pipe it into Gemini to extract hidden correlations that humans miss.</span>
+          </li>
+          <li className={`p-4 rounded border flex flex-col gap-2 ${isDark ? 'bg-[#171717] border-[#262626]' : 'bg-[#fafafa] border-[#e5e5e5]'}`}>
+            <strong className={isDark ? 'text-white' : 'text-black'}>Wagmi & Viem</strong>
+            <span className={`text-sm ${isDark ? 'text-[#a3a3a3]' : 'text-[#525252]'}`}>The absolute standard in React Ethereum interfaces. We utilize <code>useSendTransaction</code> and <code>parseEther</code> to handle precision decimal management directly on the client side, ensuring no backend ever touches user private keys.</span>
+          </li>
+          <li className={`p-4 rounded border flex flex-col gap-2 ${isDark ? 'bg-[#171717] border-[#262626]' : 'bg-[#fafafa] border-[#e5e5e5]'}`}>
+            <strong className={isDark ? 'text-white' : 'text-black'}>RainbowKit</strong>
+            <span className={`text-sm ${isDark ? 'text-[#a3a3a3]' : 'text-[#525252]'}`}>Provides the seamless modal for WalletConnect, MetaMask, Coinbase Wallet, and hardware wallet integration.</span>
+          </li>
+        </ul>
+      </>
+    )
   };
 
   const currentContent = contentMap[activeSection] || contentMap['Introduction'];
