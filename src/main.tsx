@@ -28,7 +28,7 @@ const sodexTestnet = {
 
 const config = getDefaultConfig({
   appName: 'NarrativeForge',
-  projectId: 'd83151480f2d6e75a2879a834224765d',
+  projectId: '05e396cd86b2c8a0594e8d2d9fc86177',
   chains: [sodexTestnet, mainnet, sepolia, valueChainMainnet],
   transports: {
     [sodexTestnet.id]: http(),
