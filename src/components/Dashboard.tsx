@@ -187,6 +187,9 @@ export default function Dashboard() {
   const [narratives, setNarratives] = useState<any[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [txHistory, setTxHistory] = useState<any[]>([]);
+  const [agreed, setAgreed] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const { isConnected, address, chain } = useAccount();
 
   // Load saved transaction history when wallet connects
   useEffect(() => {
@@ -199,9 +202,6 @@ export default function Dashboard() {
       setTxHistory([]); // Clear if disconnected
     }
   }, [address]);
-  const [agreed, setAgreed] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const { isConnected, address, chain } = useAccount();
 
   useEffect(() => {
     if (localStorage.getItem("narrativeForgeTermsAgreed") === "true") {
