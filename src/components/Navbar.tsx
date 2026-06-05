@@ -19,8 +19,8 @@ const Navbar = () => {
 
   const { isConnected } = useAccount();
   const navLinks = isConnected 
-    ? ["Home", "Forge", "Trade", "Contracts", "Docs"]
-    : ["Home", "Contracts", "Docs"];
+    ? ["Home", "Platform", "Forge", "Trade", "Docs"]
+    : ["Home", "Platform", "Docs"];
 
   return (
     <div className="fixed top-4 left-0 right-0 z-50 flex justify-center pl-4 pr-1.5 pointer-events-none">
@@ -52,9 +52,9 @@ const Navbar = () => {
                 key={i} 
                 onClick={() => {
                   if (link === "Home") navigate('/');
+                  else if (link === "Platform") navigate('/');
                   else if (link === "Forge") navigate('/dashboard');
                   else if (link === "Trade") navigate('/trade');
-                  else if (link === "Contracts") navigate('/contracts');
                   else if (link === "Docs") navigate('/docs');
                 }}
                 className={`text-xs text-brand-navy rounded-xl hover:bg-gray-100 font-bold uppercase tracking-wider transition-all duration-500 ease-in-out ${
@@ -128,9 +128,9 @@ const Navbar = () => {
                 key={i} 
                 onClick={() => {
                   if (link === "Home") navigate('/');
+                  else if (link === "Platform") navigate('/');
                   else if (link === "Forge") navigate('/dashboard');
                   else if (link === "Trade") navigate('/trade');
-                  else if (link === "Contracts") navigate('/contracts');
                   else if (link === "Docs") navigate('/docs');
                   setMobileMenuOpen(false);
                 }}

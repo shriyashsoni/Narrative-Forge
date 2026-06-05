@@ -42,15 +42,15 @@ const FreedomSection = () => {
           <svg width="19" height="18" viewBox="0 0 17 16" fill="rgb(200,111,255)" xmlns="http://www.w3.org/2000/svg">
             <path d="M12.5 2.5C11.1 2.5 9.8 3.3 9 4.4C8.2 3.3 6.9 2.5 5.5 2.5C3.3 2.5 1.5 4.3 1.5 6.5C1.5 9.5 9 14.5 9 14.5C9 14.5 16.5 9.5 16.5 6.5C16.5 4.3 14.7 2.5 12.5 2.5Z" />
           </svg>
-          Automation
+          The Web3 Oracle
         </div>
 
         {/* Headline */}
         <h2 className="text-4xl md:text-5xl font-medium text-brand-navy tracking-tight max-w-2xl leading-tight">
-          Bridging the global <span className="bg-gradient-a text-transparent bg-clip-text">access gap</span> with open infrastructure.
+          Eliminating latency between <span className="bg-gradient-a text-transparent bg-clip-text">narrative detection</span> and execution.
         </h2>
         <p className="text-lg text-brand-lavender max-w-2xl">
-          Worldwide, millions are excluded from modern financial systems due to currency restrictions, banking monopolies, and limited infrastructure. ValueChain and SoDEX provide the foundation for a structurally open, globally accessible ecosystem capable of Nasdaq-grade throughput.
+          By coupling the Google Gemini Flash API with the massive transaction throughput of ValueChain, NarrativeForge ensures that you never miss a capital rotation. We transform raw SoSoValue metadata into precise, gas-optimized Ethereum Sepolia transactions.
         </p>
       </div>
 
@@ -77,27 +77,27 @@ const FreedomSection = () => {
             }}
           >
             <div className="flex flex-col">
-              <span className="text-sm font-medium text-gray-500 line-through">Existing Blockchains</span>
-              <span className="text-brand-navy font-medium">ValueChain Infrastructure</span>
+              <span className="text-sm font-medium text-gray-500 line-through">Traditional Trading Tools</span>
+              <span className="text-brand-navy font-medium">NarrativeForge Ecosystem</span>
             </div>
           </div>
             
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between py-3 border-b border-gray-100">
               <span className="text-gray-500">Architecture</span>
-              <span className="text-brand-purple font-medium">Containerized MetaChain</span>
+              <span className="text-brand-purple font-medium">Decentralized Oracle Engine</span>
             </div>
             <div className="flex items-center justify-between py-3 border-b border-gray-100">
               <span className="text-gray-500">Order Books</span>
-              <span className="text-brand-purple font-medium">Native On-Chain Spot & Perps</span>
+              <span className="text-brand-purple font-medium">SoDEX Router Integration</span>
             </div>
             <div className="flex items-center justify-between py-3 border-b border-gray-100">
               <span className="text-gray-500">Throughput</span>
-              <span className="text-brand-purple font-medium">Nasdaq-Grade Velocity</span>
+              <span className="text-brand-purple font-medium">Sub-second Gemini Inference</span>
             </div>
             <div className="flex items-center justify-between py-3">
               <span className="text-gray-500">Settlement</span>
-              <span className="text-brand-purple font-medium">Visa-Level Concurrency</span>
+              <span className="text-brand-purple font-medium">ValueChain Finality</span>
             </div>
           </div>
 

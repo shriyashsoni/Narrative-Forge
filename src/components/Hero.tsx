@@ -22,19 +22,19 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-10 max-w-2xl text-center flex flex-col items-center gap-6">
         <span className="text-lg font-medium bg-gradient-b bg-clip-text text-transparent" style={{ WebkitTextFillColor: 'transparent' }}>
-          Next-Gen AI Indexing
+          Decentralized Narrative Trading
         </span>
         <h1 
           className="text-white font-medium leading-tight md:whitespace-nowrap"
           style={{ fontSize: 'clamp(32px, 4vw, 56px)' }}
         >
-          Autonomous Market Intelligence.
+          The First AI-Powered <br className="md:hidden" /> On-Chain Oracle.
         </h1>
         <p 
           className="text-brand-lavender max-w-[600px] mx-auto"
           style={{ fontSize: 'clamp(15px, 1.2vw, 20px)' }}
         >
-          NarrativeForge utilizes Gemini 1.5 Flash to parse massive SoSoValue news clusters into hyper-optimized, mathematically sound cryptocurrency indexes, seamlessly executed on the SoDEX Perpetual network.
+          NarrativeForge actively monitors global Web3 sentiment via SoSoValue, distilling millions of data points through Google Gemini Flash. We securely route high-conviction trades to the SoDEX Router on Ethereum Sepolia and ValueChain.
         </p>
       </div>
     </section>

@@ -49,9 +49,9 @@ const PrecisionSection = () => {
             lineHeight: 1.15
           }}
         >
-          <span className="block sm:whitespace-nowrap">One integrated, end-to-end agent.</span>
+          <span className="block sm:whitespace-nowrap">One autonomous Web3 pipeline.</span>
           <span className="block bg-gradient-b bg-clip-text text-transparent" style={{ WebkitTextFillColor: 'transparent', paddingBottom: '0.3vw' }}>
-            Compounding algorithmic edge.
+            Executing algorithmic alpha.
           </span>
         </h2>
 
@@ -62,7 +62,7 @@ const PrecisionSection = () => {
             fontSize: 'clamp(15px, 1.2vw, 20px)'
           }}
         >
-          NarrativeForge captures data, aligns AI, validates smart contracts, and delivers exactly what keeps your portfolio ahead.
+          NarrativeForge scrapes SoSoValue, triggers Gemini inference, signs via EIP-712, and settles trades instantly on the SoDEX Router.
         </p>
       </div>
 

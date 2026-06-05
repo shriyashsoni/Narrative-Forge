@@ -55,9 +55,9 @@ const TrustedSection = () => {
           className="text-white font-medium"
           style={{ fontSize: 'clamp(32px, 4vw, 56px)', lineHeight: 1.2 }}
         >
-          Powered by real-time data <br />
+          Powered by NarrativeForge Oracle <br />
           <span className="bg-gradient-b bg-clip-text text-transparent" style={{ WebkitTextFillColor: 'transparent' }}>
-            from intelligence to execution.
+            from sentiment to smart contract.
           </span>
         </h2>
         <p 
@@ -67,7 +67,7 @@ const TrustedSection = () => {
             fontSize: 'clamp(14px, 1.25vw, 18px)' 
           }}
         >
-          Built for algorithmic trading clarity in volatile markets. Proven through verifiable smart contract validation.
+          Built exclusively for the SoDEX Router on ValueChain Layer 2. Our Python backend continuously computes narrative flow to bring institutional-grade alpha directly to your Web3 wallet.
         </p>
       </div>
 
