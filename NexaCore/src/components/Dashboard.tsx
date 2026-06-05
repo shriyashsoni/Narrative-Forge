@@ -101,8 +101,9 @@ const TradePanel = ({ narrative, onSuccess }: any) => {
       const remainder = 10000 % narrative.tokens.length;
       const weights = narrative.tokens.map((_, i: number) => BigInt(baseWeight + (i < remainder ? 1 : 0)));
 
+      const contractAddress = import.meta.env.VITE_SSI_PROTOCOL_ADDRESS || '0xCE2979887785d415b407727CDd8f6Ed752AAE335';
       await writeContractAsync({
-        address: '0xCE2979887785d415b407727CDd8f6Ed752AAE335',
+        address: contractAddress as any,
         abi: SSI_ABI,
         functionName: 'publishIndex',
         args: [narrative.theme, narrative.tokens, weights],
@@ -292,6 +293,8 @@ export default function Dashboard() {
     );
   }
 
+  const contractAddress = import.meta.env.VITE_SSI_PROTOCOL_ADDRESS || '0xCE2979887785d415b407727CDd8f6Ed752AAE335';
+
   return (
     <div className="min-h-screen bg-[#05070A] text-gray-300 pt-24 pb-12 px-4 sm:px-6 font-sans">
       
@@ -301,7 +304,7 @@ export default function Dashboard() {
           <div className="flex gap-8">
             <div className="flex flex-col"><span className="text-gray-500">Connected Wallet</span><span className="text-white font-bold">{isConnected && address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "Not Connected"}</span></div>
             <div className="flex flex-col"><span className="text-gray-500">Network</span><span className="text-green-500 font-bold">{chain?.name || "Sepolia"}</span></div>
-            <div className="flex flex-col"><span className="text-gray-500">Smart Contract</span><span className="text-white">0xCE29...E335</span></div>
+            <div className="flex flex-col"><span className="text-gray-500">Smart Contract</span><span className="text-white">{contractAddress.slice(0, 6)}...{contractAddress.slice(-4)}</span></div>
             <div className="flex flex-col"><span className="text-gray-500">Active Signals</span><span className="text-brand-purple font-bold">{narratives.length}</span></div>
           </div>
           <div className="flex gap-4 items-center">
