@@ -8,7 +8,7 @@ import PrecisionSection from './components/PrecisionSection';
 import Dashboard from './components/Dashboard';
 import Trade from './components/Trade';
 import Contracts from './components/Contracts';
-import Whitepaper from './components/Whitepaper';
+import DeveloperDocs from './components/DeveloperDocs';
 import { useAccount } from 'wagmi';
 
 function LandingPage() {
@@ -33,15 +33,17 @@ function App() {
     }
   }, [isConnected, location, navigate]);
 
+  const isDocs = location.pathname === '/docs';
+
   return (
     <main className="bg-white min-h-screen">
-      <Navbar />
+      {!isDocs && <Navbar />}
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/trade" element={<Trade />} />
         <Route path="/contracts" element={<Contracts />} />
-        <Route path="/docs" element={<Whitepaper />} />
+        <Route path="/docs" element={<DeveloperDocs />} />
       </Routes>
     </main>
   );
