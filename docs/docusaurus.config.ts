@@ -46,7 +46,7 @@ const config: Config = {
       },
       items: [
         {
-          href: 'http://localhost:3000',
+          href: 'http://localhost:5173',
           label: 'Launch App',
           position: 'right',
         },
@@ -64,8 +64,8 @@ const config: Config = {
           title: 'Documentation',
           items: [
             {
-              label: 'Whitepaper',
-              to: '/whitepaper',
+              label: 'Introduction',
+              to: '/introduction',
             },
           ],
         },

@@ -4,18 +4,34 @@ const sidebars: SidebarsConfig = {
   tutorialSidebar: [
     {
       type: 'doc',
-      id: 'whitepaper',
-      label: '🚀 Introduction',
+      id: 'introduction',
+      label: 'Introduction',
     },
     {
       type: 'category',
-      label: '🏗️ Architecture',
-      items: ['architecture/engine'],
+      label: 'Core Architecture',
+      items: [
+        'architecture/ai-oracle',
+        'architecture/smart-contracts',
+        'architecture/trading-engine'
+      ],
     },
     {
       type: 'category',
-      label: '💎 Protocol Layers',
-      items: ['layers/intelligence', 'layers/execution'],
+      label: 'Network Deployments',
+      items: [
+        'deployments/sepolia',
+        'deployments/mainnet-strategy'
+      ],
+    },
+    {
+      type: 'category',
+      label: 'API References',
+      items: [
+        'apis/sosovalue',
+        'apis/gemini',
+        'apis/sodex'
+      ],
     },
   ],
 };

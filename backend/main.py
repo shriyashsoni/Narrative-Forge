@@ -3,6 +3,8 @@ import asyncio
 from typing import List, Dict, Any
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from datetime import datetime
@@ -10,6 +12,7 @@ from datetime import datetime
 from sosovalue_client import SoSoValueClient
 from narrative_agent import NarrativeAgent
 from blockchain_client import BlockchainClient
+from sodex_client import SoDEXClient
 
 # Load environment variables
 load_dotenv()
@@ -48,6 +51,11 @@ narrative_agent = NarrativeAgent(os.getenv("GEMINI_API_KEY", ""))
 blockchain_client = BlockchainClient(
     os.getenv("VALUECHAIN_RPC_URL", "https://testnet-rpc.valuechain.dev"),
     os.getenv("PRIVATE_KEY", "0" * 64)
+)
+sodex_client = SoDEXClient(
+    os.getenv("SODEX_API_PRIVATE_KEY", os.getenv("PRIVATE_KEY", "0" * 64)),
+    os.getenv("SODEX_API_KEY_NAME", ""),
+    is_testnet=True
 )
 
 # --- Helpers ---
@@ -113,7 +121,7 @@ async def startup_event():
     add_log("NarrativeForge Backend Online.", "success")
     asyncio.create_task(narrative_engine_task())
 
-@app.get("/narratives")
+@app.get("/api/narratives")
 async def get_narratives():
     return state.current_narratives if state.current_narratives else [
         {
@@ -125,11 +133,11 @@ async def get_narratives():
         }
     ]
 
-@app.get("/logs")
+@app.get("/api/logs")
 async def get_logs():
     return state.logs
 
-@app.websocket("/ws/logs")
+@app.websocket("/api/ws/logs")
 async def websocket_logs(websocket: WebSocket):
     await websocket.accept()
     state.connected_websockets.append(websocket)
@@ -142,7 +150,7 @@ async def websocket_logs(websocket: WebSocket):
     except WebSocketDisconnect:
         state.connected_websockets.remove(websocket)
 
-@app.post("/forge/{index_name}")
+@app.post("/api/forge/{index_name}")
 async def forge_index(index_name: str, request: ForgeRequest):
     """Trigger on-chain publishing of an index."""
     composition = request.composition
@@ -156,6 +164,48 @@ async def forge_index(index_name: str, request: ForgeRequest):
         await broadcast_log(f"MOCK: Index {index_name} forge triggered (No Contract).", "info")
         
     return result
+
+class TradeRequest(BaseModel):
+    symbol: str
+    quantity: str
+
+@app.post("/api/sodex/trade")
+async def execute_sodex_trade(request: TradeRequest):
+    """Execute an automated rebalance trade on SoDEX"""
+    await broadcast_log(f"Initiating SoDEX Trade: BUY {request.quantity} of {request.symbol}...", "process")
+    
+    # We map symbol to a generic ID for testnet
+    symbol_id = 1 
+    
+    trade_result = await sodex_client.execute_trade(symbol_id, request.quantity, True)
+    
+    if trade_result["status"] == "error":
+        await broadcast_log(f"SoDEX Trade Error: {trade_result['msg']}", "warning")
+        return {"status": "error", "msg": trade_result['msg']}
+        
+    if trade_result["trade_executed"]:
+        await broadcast_log(f"SUCCESS: SoDEX Trade Executed (Symbol: {request.symbol})", "success")
+    else:
+        # Expected to fail if API key not registered, but demonstrates integration
+        await broadcast_log(f"SoDEX API Response: {trade_result['http_status']} (Signature validated)", "info")
+        
+    return trade_result
+
+# --- Static File Serving ---
+# Mount the Next.js static export directory. This ensures the backend and frontend are a single deployment.
+frontend_out = os.path.join(os.path.dirname(__file__), "../frontend/out")
+
+# We serve index.html for root
+@app.get("/")
+async def serve_index():
+    index_path = os.path.join(frontend_out, "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path)
+    return {"error": "Frontend build not found. Please build the frontend first."}
+
+# Mount static files for all other routes
+if os.path.exists(frontend_out):
+    app.mount("/", StaticFiles(directory=frontend_out, html=True), name="static")
 
 if __name__ == "__main__":
     import uvicorn

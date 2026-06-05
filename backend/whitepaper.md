@@ -6,7 +6,7 @@ NarrativeForge is a decentralized autonomous agent architecture designed to brid
 ## 2. Core Architecture
 The system consists of three primary layers:
 1. **The Intelligence Layer (SoSoValue Terminal):** Constant monitoring of market news, social sentiment, and token metadata.
-2. **The Decision Layer (AI Agent):** A generative AI model (Gemini) that classifies narratives (e.g., "AI Season", "RWA Surge") and calculates momentum scores.
+2. **The Decision Layer (AI Agent):** A generative AI model (Gemini) that classifies narratives (e.g., "AI Season", "RWA Surge") and calculates momentum scores. *Note: We utilize advanced Prompt Engineering and in-context learning to achieve this, without requiring static model fine-tuning.*
 3. **The Execution Layer (SSI & SoDEX):** Automatic generation of index compositions on SSI Protocol and execution of rebalance trades on SoDEX.
 
 ## 3. Narrative Momentum Scoring

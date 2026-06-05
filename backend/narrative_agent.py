@@ -22,15 +22,15 @@ class NarrativeAgent:
         - "tokens" (list): 3-4 relevant symbols
         - "verdict" (string): AI professional opinion (e.g., "High potential, monitor social volume")
         - "suggestion" (string): Actionable strategy (e.g., "Accumulate during retests")
-        - "chartData" (list of objects): 5 points like [{"time": "T1", "val": 20}, ...] for a sparkline.
+        - "chartData" (list of objects): 5 points like [{{"time": "T1", "val": 20}}, ...] for a sparkline.
         
-        News: {json.dumps(news_data[:10])}
-        Sectors: {json.dumps(sectors)}
+        News: {str(news_data)[:5000]}
+        Sectors: {str(sectors)[:2000]}
         """
         
         try:
             print(f"Gemini: Sending prompt with {len(news_data)} news items...")
-            response = self.model.generate_content(prompt)
+            response = await self.model.generate_content_async(prompt)
             text = response.text
             print(f"Gemini: Raw Response: {text[:200]}...")
             
@@ -46,14 +46,26 @@ class NarrativeAgent:
             print(f"Gemini Analysis Error: {e}")
             # Return a fallback narrative if AI fails
             return [{
-                "theme": "Market Stability",
-                "momentum": 50,
-                "summary": "AI Analysis failed, defaulting to general market observation.",
-                "tokens": ["BTC", "ETH", "SOL"]
+                "theme": "Core Accumulation Phase",
+                "momentum": 65,
+                "summary": "AI API integration encountered an error. Falling back to default technical observations.",
+                "tokens": ["BTC", "ETH", "SOL"],
+                "verdict": "Moderate Risk - Awaiting AI confirmation. Rely on standard technical supports.",
+                "suggestion": "Monitor major moving averages. Do not deploy heavy capital until Gemini stream reconnects."
             }]
 
     def calculate_composition(self, momentum: int, tokens: List[str]) -> List[Dict[str, Any]]:
-        """Calculate weights for an SSI Index composition."""
-        # Simple equal weight for now, or weighted by momentum/sentiment
-        weight = 100 / len(tokens)
-        return [{"symbol": t, "weight": weight} for t in tokens]
+        """Calculate weights for an SSI Index composition (must sum to 10000 basis points)."""
+        if not tokens:
+            return []
+            
+        # Distribute weights equally, ensuring the sum is exactly 10000
+        base_weight = 10000 // len(tokens)
+        remainder = 10000 % len(tokens)
+        
+        composition = []
+        for i, t in enumerate(tokens):
+            weight = base_weight + (1 if i < remainder else 0)
+            composition.append({"symbol": t, "weight": weight})
+            
+        return composition

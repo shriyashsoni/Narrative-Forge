@@ -146,7 +146,24 @@ const TerminalDisplay = ({ logs }: { logs: any[] }) => {
   );
 };
 
-const NarrativeCard = ({ narrative, onForge, isForging }: any) => {
+const NarrativeCard = ({ narrative, onForge, onTrade }: any) => {
+  const [localForging, setLocalForging] = useState(false);
+  const [trading, setTrading] = useState(false);
+  const [result, setResult] = useState<any>(null);
+
+  const handleAction = async () => {
+    setLocalForging(true);
+    const res = await onForge(narrative);
+    if(res) setResult(res);
+    setLocalForging(false);
+  };
+
+  const handleTradeAction = async () => {
+    setTrading(true);
+    await onTrade(narrative);
+    setTrading(false);
+  };
+
   const pieData = narrative.tokens?.map((t: string) => ({ name: t, value: 25 }));
   const colors = ['#D9F3E5', '#111827', '#374151', '#4B5563'];
 
@@ -221,17 +238,31 @@ const NarrativeCard = ({ narrative, onForge, isForging }: any) => {
         ))}
       </div>
 
-      <button 
-        onClick={() => {
-          console.log(`Forging Narrative: ${narrative.theme}`);
-          onForge(narrative);
-        }}
-        disabled={isForging}
-        className="btn-primary w-full flex items-center justify-center gap-4 h-24 text-xl group-hover:scale-[1.01] transition-all shadow-2xl shadow-aptos-mint/30 rounded-[3rem] relative z-50 cursor-pointer"
-      >
-        {isForging ? <Activity size={24} className="animate-spin" /> : <Zap size={24} className="fill-current" />}
-        {isForging ? "PUBLISHING TO SSI..." : "FORGE ON VALUECHAIN"}
-      </button>
+      {result ? (
+        <div className="p-8 bg-green-500/10 border border-green-500/30 rounded-[2.5rem] space-y-6">
+          <div className="flex items-center gap-2 text-green-400 font-black text-xl uppercase tracking-widest">
+             <Zap size={24} className="fill-current" /> SSI Index Forged
+          </div>
+          <p className="text-white/70 font-mono text-sm break-all">
+            TX: <a href={result.explorer_url} target="_blank" rel="noreferrer" className="text-aptos-mint hover:underline">{result.tx_hash}</a>
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 mt-6">
+             <a href={result.explorer_url} target="_blank" rel="noreferrer" className="btn-primary flex-1 flex items-center justify-center gap-2 h-16 text-sm rounded-2xl shadow-lg">View on Explorer <ArrowUpRight size={16} /></a>
+             <button onClick={handleTradeAction} disabled={trading} className="bg-foreground text-white border border-white/10 hover:bg-white/10 flex-1 flex items-center justify-center gap-2 h-16 text-sm rounded-2xl transition-all shadow-lg font-black uppercase tracking-widest">
+               {trading ? "EXECUTING..." : "Trade on SoDEX"} {trading ? <Activity size={16} className="animate-spin" /> : <Activity size={16} />}
+             </button>
+          </div>
+        </div>
+      ) : (
+        <button 
+          onClick={handleAction}
+          disabled={localForging}
+          className="btn-primary w-full flex items-center justify-center gap-4 h-24 text-xl group-hover:scale-[1.01] transition-all shadow-2xl shadow-aptos-mint/30 rounded-[3rem] relative z-50 cursor-pointer"
+        >
+          {localForging ? <Activity size={24} className="animate-spin" /> : <Zap size={24} className="fill-current" />}
+          {localForging ? "PUBLISHING TO SSI..." : "FORGE ON VALUECHAIN"}
+        </button>
+      )}
     </motion.div>
   );
 };
@@ -285,8 +316,8 @@ export default function NarrativeForge() {
   const { isConnected } = useAccount();
   
   // Dynamic API configuration
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-  const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000";
+  const API_URL = "/api";
+  const WS_URL = ""; // WS URL will be constructed dynamically based on window.location
 
   const { scrollYProgress } = useScroll();
   const heroScale = useTransform(scrollYProgress, [0, 0.3], [1, 0.8]);
@@ -295,7 +326,10 @@ export default function NarrativeForge() {
   const smoothHeroY = useSpring(heroY, { stiffness: 100, damping: 30 });
 
   useEffect(() => {
-    const ws = new WebSocket(`${WS_URL}/ws/logs`);
+    // Construct WebSocket URL dynamically based on current host
+    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    const host = window.location.host;
+    const ws = new WebSocket(`${protocol}//${host}/api/ws/logs`);
     ws.onmessage = (event) => {
       const log = JSON.parse(event.data);
       setLogs((prev) => [...prev, log].slice(-50));
@@ -318,15 +352,38 @@ export default function NarrativeForge() {
 
   const handleForge = async (narrative: any) => {
     if (!isConnected) return alert("Connect Wallet");
-    setIsForging(true);
     try {
-      await fetch(`${API_URL}/forge/${narrative.theme.replace(/\s+/g, '-')}`, {
+      const response = await fetch(`${API_URL}/forge/${narrative.theme.replace(/\s+/g, '-')}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ composition: narrative.tokens.map((t: any) => ({ symbol: t, weight: 25 })) })
       });
-    } catch (err) { console.error(err); }
-    finally { setIsForging(false); }
+      return await response.json();
+    } catch (err) { 
+      console.error(err); 
+      return null;
+    }
+  };
+
+  const handleSodexTrade = async (narrative: any) => {
+    if (!isConnected) return alert("Connect Wallet");
+    try {
+      // Execute a trade for the primary token in the narrative index
+      const primaryToken = narrative.tokens[0];
+      const response = await fetch(`${API_URL}/sodex/trade`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ symbol: primaryToken, quantity: "0.1" })
+      });
+      const data = await response.json();
+      if(data.status === "success" || data.trade_executed) {
+          alert(`Success: Trade executed for ${primaryToken} on SoDEX!`);
+      } else {
+          alert(`Notice: ${data.msg || "Trade logged via API. Check terminal for details."}`);
+      }
+    } catch (err) { 
+      console.error(err); 
+    }
   };
 
   return (
@@ -474,7 +531,7 @@ export default function NarrativeForge() {
                   <div className="lg:col-span-2 space-y-20">
                     <div className="grid grid-cols-1 gap-12">
                       {narratives.map((narrative, i) => (
-                        <NarrativeCard key={i} narrative={narrative} onForge={handleForge} isForging={isForging} />
+                        <NarrativeCard key={i} narrative={narrative} onForge={handleForge} onTrade={handleSodexTrade} />
                       ))}
                       {narratives.length === 0 && (
                         <div className="col-span-2 aptos-card flex flex-col items-center justify-center p-40 text-center space-y-12 bg-white/50 backdrop-blur-3xl border-dashed border-4 border-foreground/5 rounded-[5rem]">
