@@ -73,32 +73,37 @@ export default function Trade() {
   const [tradeLogs, setTradeLogs] = useState<any[]>([]);
 
   // On-Chain Execution Setup
-  const { data: hash, sendTransaction, isPending } = useSendTransaction();
-  const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
-
-  useEffect(() => {
-    if (isConfirmed && hash) {
-      setTradeLogs(prev => [{
-        time: new Date().toLocaleTimeString(),
-        pair: `${symbol}/USDT`,
-        size: amount,
-        hash: hash,
-        url: `https://sepolia.etherscan.io/tx/${hash}`
-      }, ...prev]);
-    }
-  }, [isConfirmed, hash]);
+  const { sendTransactionAsync, isPending } = useSendTransaction();
+  const [isConfirming, setIsConfirming] = useState(false);
 
   const handleOnChainTrade = async () => {
     if (!address) return;
     try {
-      // Execute a 0 ETH on-chain transaction to the SoDEX Router address as an immutable proof of trade
-      sendTransaction({
+      const txHash = await sendTransactionAsync({
         to: '0xCE2979887785d415b407727CDd8f6Ed752AAE335', // Routing to SSI Protocol as mock DEX Router
         value: parseEther('0.0001'),
-        chainId: 11155111
-      });
-    } catch (err) { 
-      console.error(err); 
+        chainId: 11155111,
+        gas: BigInt(100000) // Force gas to ensure prompt MetaMask popup
+      } as any);
+
+      setIsConfirming(true);
+      
+      // Optimistic UI update: bypass slow public RPC polling
+      setTimeout(() => {
+        setIsConfirming(false);
+        setTradeLogs(prev => [{
+          time: new Date().toLocaleTimeString(),
+          pair: `${symbol}/USDT`,
+          size: amount,
+          hash: txHash,
+          url: `https://sepolia.etherscan.io/tx/${txHash}`
+        }, ...prev]);
+      }, 3000);
+
+    } catch (err: any) { 
+      console.error(err);
+      setIsConfirming(false);
+      // Optional: alert(err.shortMessage || "Transaction failed");
     }
   };
 
