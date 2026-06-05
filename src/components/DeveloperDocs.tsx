@@ -26,27 +26,27 @@ const DeveloperDocs = () => {
   const navStructure = [
     {
       title: 'Getting Started',
-      icon: <Zap size={16} />,
+      icon: <span>🚀</span>,
       items: ['Introduction', 'Platform Vision', 'Dashboard Guide']
     },
     {
       title: 'Core Architecture',
-      icon: <Book size={16} />,
+      icon: <span>⚙️</span>,
       items: ['AI Oracle Engine', 'On-Chain Execution', 'Data Aggregation']
     },
     {
       title: 'Smart Contracts',
-      icon: <Code size={16} />,
+      icon: <span>📜</span>,
       items: ['Contract Addresses', 'SoDEX Router', 'ValueChain Integration']
     },
     {
       title: 'Technology Stack',
-      icon: <Terminal size={16} />,
+      icon: <span>🛠️</span>,
       items: ['Frontend Stack', 'Backend Infrastructure', 'Web3 & AI']
     },
     {
       title: 'API Reference',
-      icon: <Code size={16} />,
+      icon: <span>🔌</span>,
       items: ['Authentication', 'Narrative Streams', 'Trade Logs']
     }
   ];

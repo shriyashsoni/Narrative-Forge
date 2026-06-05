@@ -14,7 +14,7 @@ const Footer = () => {
           {/* Brand Column */}
           <div className="col-span-1 md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <Terminal size={24} className="text-white" />
+              <span className="text-2xl">⚡</span>
               <span className="font-bold text-xl tracking-tight">NarrativeForge</span>
             </div>
             <p className="text-[#a3a3a3] text-sm leading-relaxed mb-6">
@@ -62,9 +62,9 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-[#1f2937]/50 text-xs text-[#a3a3a3]">
           <p>© 2026 NarrativeForge Labs. Built on ValueChain.</p>
           <div className="flex items-center gap-6 mt-4 md:mt-0">
-            <a href="https://x.com/shriyashsoni" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Twitter / X</a>
+            <a href="https://x.com/shriyashsoni" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Twitter / X 🐦</a>
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span>🟢</span>
               All systems operational
             </div>
           </div>
