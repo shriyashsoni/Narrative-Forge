@@ -57,8 +57,8 @@ No centralized intermediary. No manual input. No latency. Pure alpha.
 
 | Resource | Link |
 | :--- | :--- |
-| **Production Application** | [https://narrativeforge.vercel.app](https://narrativeforge.vercel.app) |
-| **Developer Documentation** | [https://narrativeforge.vercel.app/docs](https://narrativeforge.vercel.app/docs) |
+| **Production Application** | [https://narrative-forge-1nah.vercel.app](https://narrative-forge-1nah.vercel.app) |
+| **Developer Documentation** | [https://narrative-forge-1nah.vercel.app/docs](https://narrative-forge-1nah.vercel.app/docs) |
 | **GitHub Repository** | [https://github.com/shriyashsoni/Narrative-Forge](https://github.com/shriyashsoni/Narrative-Forge) |
 | **Twitter / X** | [https://x.com/shriyashsoni](https://x.com/shriyashsoni) |
 | **SoDEX Router on Etherscan** | [0xCE2979...AAE335](https://sepolia.etherscan.io/address/0xCE2979887785d415b407727CDd8f6Ed752AAE335) |
@@ -183,7 +183,7 @@ NarrativeForge integrates with multiple testnet layers to ensure scalable, gas-e
 
 ## Developer Documentation
 
-The full interactive developer documentation is accessible at [/docs](https://narrativeforge.vercel.app/docs) and covers:
+The full interactive developer documentation is accessible at [/docs](https://narrative-forge-1nah.vercel.app/docs) and covers:
 
 - Core Architecture: AI Oracle Engine, On-Chain Execution, Data Aggregation
 - Smart Contracts: Contract addresses, ABI details, SoDEX Router, ValueChain integration
@@ -227,7 +227,7 @@ VITE_WALLETCONNECT_PROJECT_ID=05e396cd86b2c8a0594e8d2d9fc86177
 VITE_SSI_PROTOCOL_ADDRESS=0xCE2979887785d415b407727CDd8f6Ed752AAE335
 
 # Backend API (production)
-VITE_API_URL=https://narrativeforge.vercel.app/api
+VITE_API_URL=https://narrative-forge-1nah.vercel.app/api
 ```
 
 For the backend (`backend/.env`):
@@ -260,7 +260,7 @@ Building NarrativeForge required solving one of the hardest engineering challeng
     &nbsp;•&nbsp;
     <a href="https://x.com/shriyashsoni">Twitter / X</a>
     &nbsp;•&nbsp;
-    <a href="https://narrativeforge.vercel.app/docs">Documentation</a>
+    <a href="https://narrative-forge-1nah.vercel.app/docs">Documentation</a>
   </p>
   <br/>
   <sub>© 2026 NarrativeForge Labs. Built on ValueChain.</sub>
