@@ -76,7 +76,7 @@ export default function Trade() {
   const { sendTransactionAsync, isPending } = useSendTransaction();
   const [isConfirming, setIsConfirming] = useState(false);
 
-  const handleOnChainTrade = async () => {
+  const handleOnChainTrade = async (type: 'buy' | 'sell') => {
     if (!address) return;
     try {
       const txHash = await sendTransactionAsync({
@@ -92,6 +92,7 @@ export default function Trade() {
       setTimeout(() => {
         setIsConfirming(false);
         setTradeLogs(prev => [{
+          type: type,
           time: new Date().toLocaleTimeString(),
           pair: `${symbol}/USDT`,
           size: amount,
@@ -163,7 +164,9 @@ export default function Trade() {
                  {tradeLogs.map((log, i) => (
                    <div key={i} className="flex justify-between items-center bg-[#111827] border border-[#1f2937] p-3 rounded text-xs">
                      <div className="flex flex-col gap-1">
-                       <span className="text-green-500 font-bold">BUY {log.size} {log.pair}</span>
+                       <span className={`font-bold ${log.type === 'sell' ? 'text-red-500' : 'text-green-500'}`}>
+                         {log.type === 'sell' ? 'SELL' : 'BUY'} {log.size} {log.pair}
+                       </span>
                        <span className="text-gray-500">{log.time}</span>
                      </div>
                      <a href={log.url} target="_blank" rel="noreferrer" className="text-brand-purple hover:underline bg-brand-purple/10 px-2 py-1 rounded">
@@ -206,10 +209,10 @@ export default function Trade() {
               </div>
 
               <div className="pt-4 flex flex-col gap-3 border-t border-[#1f2937]">
-                <button onClick={handleOnChainTrade} disabled={isPending || isConfirming} className="w-full bg-[#10b981] hover:bg-[#059669] text-white font-bold py-4 rounded transition-colors text-sm tracking-widest flex justify-center items-center gap-2 shadow-lg shadow-green-500/20 disabled:opacity-50">
+                <button onClick={() => handleOnChainTrade('buy')} disabled={isPending || isConfirming} className="w-full bg-[#10b981] hover:bg-[#059669] text-white font-bold py-4 rounded transition-colors text-sm tracking-widest flex justify-center items-center gap-2 shadow-lg shadow-green-500/20 disabled:opacity-50">
                   {isPending ? "AWAITING SIGNATURE..." : isConfirming ? "MINING ON-CHAIN..." : "BUY / LONG"} <Activity size={16} />
                 </button>
-                <button onClick={handleOnChainTrade} disabled={isPending || isConfirming} className="w-full bg-red-500/10 border border-red-500/30 hover:bg-red-500/20 text-red-500 font-bold py-4 rounded transition-colors text-sm tracking-widest flex justify-center items-center gap-2 disabled:opacity-50">
+                <button onClick={() => handleOnChainTrade('sell')} disabled={isPending || isConfirming} className="w-full bg-red-500/10 border border-red-500/30 hover:bg-red-500/20 text-red-500 font-bold py-4 rounded transition-colors text-sm tracking-widest flex justify-center items-center gap-2 disabled:opacity-50">
                   {isPending ? "AWAITING SIGNATURE..." : isConfirming ? "MINING ON-CHAIN..." : "SELL / SHORT"} 
                 </button>
               </div>
